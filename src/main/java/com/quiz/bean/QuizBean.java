@@ -6,7 +6,7 @@ String description = null;
 String difficulty = null;
 String topic = null; 
 String option[] = null;
-String correctAnswer = null;
+int correctAnswer = 0;
 public int getQuestionType() {
 	return questionType;
 }
@@ -37,12 +37,13 @@ public String[] getOption() {
 public void setOption(String[] option) {
 	this.option = option;
 }
-public String getCorrectAnswer() {
+public int getCorrectAnswer() {
 	return correctAnswer;
 }
-public void setCorrectAnswer(String correctAnswer) {
+public void setCorrectAnswer(int correctAnswer) {
 	this.correctAnswer = correctAnswer;
 }
+
 
 
 }
