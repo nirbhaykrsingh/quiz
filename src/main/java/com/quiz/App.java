@@ -169,16 +169,16 @@ public class App {
 
 					}
 
-					//
+					//Scorring
 					System.out.println("\n\n\n\n\n\n Total question asked: " + quizlist.size() + "\n Total MCQ: "
 							+ totalmcq + "\n " + studentName + " you scored: " + scoredmcq
 							+ "\n Total open questions asked(Will be scored later): " + totalopenq);
-					System.out.println(" Quiz Over, do you want to play more? y/n");
-					playerchoice = (char) System.in.read();
-				}
-				System.out.println("Thanks for playing");
-				
+									}
+				System.out.println(" Quiz Over, do you want to play more? y/n");
+				playerchoice = (char) scan.nextLine().trim().charAt(0);
+
 			}
+			System.out.println("Thanks for playing!");
 			
 		} else {
 			System.out.println("Invalid entry, try again!");
