@@ -16,11 +16,14 @@ public class QuizDAO extends DAO{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+//Creating a record in quiz table
 public void createQuiz(String quizName) throws SQLException, ClassNotFoundException{
         stat.execute("insert into quiz values(quiz_seq_id.nextval,'"+quizName+"')");
 }
 
+/**
+ * Listing all the quizes from the database
+ */
 public List<Quiz> getQuizList() throws SQLException, ClassNotFoundException{
 	 rs = stat.executeQuery("select * from quiz");
 	 List<Quiz> quizList= new ArrayList<Quiz>();
@@ -34,7 +37,7 @@ public List<Quiz> getQuizList() throws SQLException, ClassNotFoundException{
 	 return quizList; 
 }
 
-
+// Reading topics from database
 public List<Topic> getTopics() throws SQLException, ClassNotFoundException{
 	 rs = stat.executeQuery("select * from topic");
 	 List<Topic> topicList= new ArrayList<Topic>();
@@ -47,6 +50,7 @@ public List<Topic> getTopics() throws SQLException, ClassNotFoundException{
 	 }
 	 return topicList; 
 }
+//Reading difficulties from the database
 
 public List<Difficulty> getDifficulties() throws SQLException, ClassNotFoundException{
 	 rs = stat.executeQuery("select * from difficulty");
@@ -61,6 +65,7 @@ public List<Difficulty> getDifficulties() throws SQLException, ClassNotFoundExce
 	 return difficultyList; 
 }
 
+// Reading question types from the database
 public List<QuestionType> getQuestionType() throws SQLException, ClassNotFoundException{
 	 rs = stat.executeQuery("select * from questiontype");
 	 List<QuestionType> questionTypeList= new ArrayList<QuestionType>();
@@ -74,15 +79,18 @@ public List<QuestionType> getQuestionType() throws SQLException, ClassNotFoundEx
 	 return questionTypeList; 
 }
 
+// Inserting a topic into the database
 public void createTopic(String topicName) throws SQLException, ClassNotFoundException{
     stat.execute("insert into topic values(topic_seq_id.nextval,'"+topicName+"')");
 }
+
+//Reading quiz detail (includes all the questions on the quiz)
 public List<QuizBean> getQuiz(int quizId) throws SQLException {
 	 rs = stat.executeQuery("select distinct  questiontype, description,difficulty.name as difficulty ,topic.name as topic,Null as option1, Null as option2,Null as option3, null as option4, "
 	 		+ "null as correctanswer  from question, mcqquestiontype, difficulty,topic where question.difficulty=difficulty.id  and question.topic=topic.id and "
 	 		+ "quiz = "+quizId+" and questiontype=2 union  select distinct  questiontype,"
 	 				+ " description,difficulty.name as difficulty, topic.name as topic,option1,option2,option3,option4, correctanswer from question,"
-	 				+ " mcqquestiontype, difficulty, topic where question.difficulty=difficulty.id and  question.topic=topic.id and quiz = "+quizId+" and question.id=mcqquestiontype .questionid and question.questiontype=1;");
+	 				+ " mcqquestiontype, difficulty, topic where question.difficulty=difficulty.id and  question.topic=topic.id and quiz = "+quizId+" and question.id=mcqquestiontype .questionid and question.questiontype=1");
 	 List<QuizBean> quizList= new ArrayList<QuizBean>();
 	 while(rs.next()){
 	 QuizBean quizBean = new QuizBean();

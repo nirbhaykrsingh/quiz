@@ -1,6 +1,6 @@
 package com.quiz;
 
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,27 +9,36 @@ import com.quiz.bean.QuestionType;
 import com.quiz.bean.Quiz;
 import com.quiz.bean.QuizBean;
 import com.quiz.bean.Topic;
+import com.quiz.dao.DBManager;
 import com.quiz.dao.QuestionDAO;
 import com.quiz.dao.QuizDAO;
 import com.quiz.dao.UserDAO;
 
 public class App 
 {
+	/**
+	 * This is main entry point for the quiz application
+	 * @param args
+	 * @throws Exception
+	 */
     public static void main( String[] args ) throws Exception
     {
-  
+    	//Scanner to receive input from system console
     	Scanner scan = new Scanner(System.in);
+    	
     	System.out.print("Who are you? Enter the number: \n 1. Professor \n 2. Student\n input your answer(1,2):");
         int input = Integer.parseInt(scan.nextLine());
     	if(input==1) {
+    		//Professor Login
     		System.out.print("Enter your userId:");
              String userid = scan.nextLine();
              System.out.print("Enter your password:");
              String pass = scan.nextLine();
     		 UserDAO userDAO = new UserDAO();
+    		 //Authenticating user
     		 boolean isValidUser = userDAO.isValidUser(userid,pass);
     		 if(isValidUser) {
-    				System.out.print("Which operation you want to perform? Enter the number: \n 1. Create new Quiz \n 2. Create a topic\n 3. Create a question\\n input your answer( Allowed choices 1, 2 or 3):");
+    				System.out.print("Which operation you want to perform? Enter the number: \n 1. Create new Quiz \n 2. Create a topic\n 3. Create a question\n input your answer( Allowed choices 1, 2 or 3):");
     			     int option = Integer.parseInt(scan.nextLine());
     			     switch(option) {
     			     case 1: 
@@ -102,7 +111,7 @@ public class App
 			             
 			             QuestionDAO questionDAO = new QuestionDAO();
 			             questionDAO.createQuestion( questionDescription,  quizId,  questionTypeId,  difficultyId,  topicId, choice,  correctanswer);
-			              
+			              System.out.println("Question inserted successfully! Exiting...");
 			             break;
 			            default:
 			            	System.out.println("Invalid entry!!!");
@@ -114,7 +123,10 @@ public class App
     			 
     		 }
     	} else if(input==2) {
-    		//student
+    		//student Login
+    		System.out.print("Enter your Name:");
+            String studentName = scan.nextLine();
+    		
     	     System.out.println("Listed quizes are:");
     	     QuizDAO quizDAO = new QuizDAO();
              List<Quiz> quizList = quizDAO.getQuizList();
@@ -128,6 +140,7 @@ public class App
         	int scoredmcq = 0;
         	int totalmcq = 0;
         	int totalopenq = 0;
+        	//Alternate scenario where there is no question in the quiz
         	if(quizlist.size()==0)
         		System.out.println("Sorry this quiz does not contain any question, please contact your professor.");
         	else {
@@ -151,8 +164,8 @@ public class App
        	           
         		}
         	
-        	
-        	System.out.println(" Total question asked: " +quizlist.size()+ "\n Total MCQ: "+ totalmcq+"\n You scored: "+scoredmcq+"\n Total open questions asked(Will be scored later): "+totalopenq);
+        	DBManager.getInstance().closeAll();
+        	System.out.println("\n\n\n\n\n\n Total question asked: " +quizlist.size()+ "\n Total MCQ: "+ totalmcq+"\n "+studentName+" you scored: "+scoredmcq+"\n Total open questions asked(Will be scored later): "+totalopenq);
         	System.out.println(" Quiz Over, Thank you!");
         		
         	}

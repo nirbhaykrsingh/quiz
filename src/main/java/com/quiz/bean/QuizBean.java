@@ -1,5 +1,5 @@
 package com.quiz.bean;
-
+// Bean to read data from the database
 public class QuizBean {
 int questionType=0;
 String description = null;
@@ -7,6 +7,7 @@ String difficulty = null;
 String topic = null; 
 String option[] = null;
 int correctAnswer = 0;
+
 public int getQuestionType() {
 	return questionType;
 }
